@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     private String generateAndStoreToken(String email) {
         String token = UUID.randomUUID().toString();
         String key = "token:" + token;
-        redisTemplate.opsForValue().set(key, email, 1, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key, email, 5, TimeUnit.MINUTES);
         return token;
     }
 }

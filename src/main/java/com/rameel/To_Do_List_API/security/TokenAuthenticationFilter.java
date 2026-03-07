@@ -26,12 +26,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            String email = redisTemplate.opsForValue().get("token:" + token);
+            String id = redisTemplate.opsForValue().get("token:" + token);
 
-            if (email != null) {
+            if (id != null) {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
-                                email,
+                                id,
                                 null,
                                 Collections.emptyList()
                         );

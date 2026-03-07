@@ -62,13 +62,13 @@ public class UserServiceImpl implements UserService {
         if (!passwordMatches) {
             throw new InvalidPassword();
         }
-        return generateAndStoreToken(user.getEmail());
+        return generateAndStoreToken(String.valueOf(userDetails.get().getId()));
     }
 
-    private String generateAndStoreToken(String email) {
+    private String generateAndStoreToken(String id) {
         String token = UUID.randomUUID().toString();
         String key = "token:" + token;
-        redisTemplate.opsForValue().set(key, email, 5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key, id, 5, TimeUnit.MINUTES);
         return token;
     }
 }

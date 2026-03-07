@@ -7,7 +7,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -16,8 +15,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "tasks")
+public class Task {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @UuidGenerator
@@ -28,11 +28,11 @@ public class User {
     private Integer version;
 
     @Column(nullable = false)
-    private String name;
-    @Column(unique = true, nullable = false)
-    private String email;
+    private String title;
+    private String description;
     @Column(nullable = false)
-    private String password;
+    @Builder.Default
+    private String status = "To Do";
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
@@ -41,6 +41,7 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Task> tasks;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
         return generateAndStoreToken(String.valueOf(userDetails.get().getId()));
     }
 
+    @Override
+    public Optional<User> getUser(UUID uuid) {
+        return userRepository.findById(uuid);
+    }
+
     private String generateAndStoreToken(String id) {
         String token = UUID.randomUUID().toString();
         String key = "token:" + token;
